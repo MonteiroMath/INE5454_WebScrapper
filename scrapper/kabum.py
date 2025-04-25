@@ -13,6 +13,7 @@ def extractData():
 
     pageData = []
     url = driver.current_url
+    print(f"Extracting from {url}")
     for productCard in productCards:
         name = productCard.find_element(By.CLASS_NAME, "nameCard").text
         oldPrice = productCard.find_element(By.CLASS_NAME, "oldPriceCard").text
