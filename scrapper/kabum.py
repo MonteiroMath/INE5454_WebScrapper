@@ -47,19 +47,25 @@ title = driver.title
 consentButton = driver.find_element(By.ID, "onetrust-accept-btn-handler")
 consentButton.click()
 data = []
-pageData = extractData()
-data.extend(pageData)
+
+while True:
+
+    pageData = extractData()
+    data.extend(pageData)
+
+    wait = WebDriverWait(driver, timeout=100)
+
+    try:
+        navigateToNextPage()
+    except:
+        print("last page reached")
+        break
+
+    WebDriverWait(driver, 30).until(EC.url_changes(driver.current_url))
+    WebDriverWait(driver, 30).until(
+        EC.presence_of_element_located((By.CLASS_NAME, "productCard"))
+    )
+
 print(data)
-
-
-wait = WebDriverWait(driver, timeout=100)
-
-navigateToNextPage()
-
-WebDriverWait(driver, 30).until(EC.url_changes(driver.current_url))
-WebDriverWait(driver, 30).until(
-    EC.presence_of_element_located((By.CLASS_NAME, "productCard"))
-)
-
 
 driver.quit()
