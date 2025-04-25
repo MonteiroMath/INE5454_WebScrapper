@@ -5,6 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from datetime import datetime
 import time
+import json
 
 
 def extractData():
@@ -35,7 +36,7 @@ def navigateToNextPage():
 
 
 options = Options()
-# options.add_argument("--headless")
+options.add_argument("--headless")
 options.add_argument("--window-size=1920,1080")
 driver = webdriver.Chrome(options=options)
 
@@ -66,6 +67,10 @@ while True:
         EC.presence_of_element_located((By.CLASS_NAME, "productCard"))
     )
 
-print(data)
+finish_time = datetime.now()
+timestamp = finish_time.strftime("%Y-%m-%d_%H-%M")
+
+with open(f"products_{timestamp}.json", "w", encoding="utf-8") as f:
+    json.dump(data, f, ensure_ascii=False, indent=4)
 
 driver.quit()
