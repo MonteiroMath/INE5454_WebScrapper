@@ -42,7 +42,7 @@ options.add_argument("--window-size=1920,1080")
 driver = webdriver.Chrome(options=options)
 
 
-driver.get("https://www.kabum.com.br/hardware")
+driver.get("https://www.terabyteshop.com.br/hardware")
 
 title = driver.title
 
