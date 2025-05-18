@@ -10,14 +10,14 @@ import json
 
 def extractData():
     productCards = driver.find_elements(
-        By.CSS_SELECTOR, "[class*='product_item']")
+        By.CLASS_NAME, "product")
 
     pageData = []
     url = driver.current_url
     print(f"Extracting from {url}")
     for productCard in productCards:
         name = productCard.find_element(
-            By.CSS_SELECTOR, "[class*='product_info_title-noMarginBottom']").text
+            By.CLASS_NAME, "tit").text
 
         try:
             img_src = productCard.find_element(
@@ -27,17 +27,18 @@ def extractData():
 
         try:
             oldPrice = productCard.find_element(
-                By.CSS_SELECTOR, "[class*='strikeThrough']").text
+                By.CLASS_NAME, "price-old").text
         except:
             oldPrice = None
 
+        
         try: 
             currentPrice = productCard.find_element(
-                By.CSS_SELECTOR, "div[class*='price_vista']").text
+                By.CSS_SELECTOR, "span.h1.text-success").text
         except:
             currentPrice = None
 
-        productData = {"loja": "Pichau", "name": name, "img": img_src, "active_sale": True if oldPrice else False, "old_price": oldPrice if oldPrice else None,
+        productData = {"loja": "Patoloco", "name": name, "img": img_src, "active_sale": True if oldPrice else False, "old_price": oldPrice if oldPrice else None,
                        "price": currentPrice, "url": url, "date": datetime.today().strftime('%Y-%m-%d')}
 
         pageData.append(productData)
@@ -45,13 +46,13 @@ def extractData():
     return pageData
 
 
-def navigateToNextPage():
-    nextButton = driver.find_element(
-        By.CSS_SELECTOR, '[aria-label="Go to next page"]')
-    driver.execute_script(
-        "arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", nextButton)
-    time.sleep(0.5)
-    nextButton.click()
+#def navigateToNextPage():
+#    nextButton = driver.find_element(
+#        By.CSS_SELECTOR, '[aria-label="Go to next page"]')
+#    driver.execute_script(
+#        "arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", nextButton)
+#    time.sleep(0.5)
+#    nextButton.click()
 
 
 options = Options()
@@ -60,11 +61,14 @@ options.add_argument("--window-size=1920,1080")
 driver = webdriver.Chrome(options=options)
 
 
-driver.get("https://www.pichau.com.br/hardware")
+driver.get("https://patoloco.com.br/produtos/hardware")
 
 title = driver.title
 
 data = []
+
+consentButton = driver.find_element(By.ID, "aceitar-uso-cookies")
+consentButton.click()
 
 pagesCount = 0
 while True:
@@ -74,26 +78,26 @@ while True:
 
     wait = WebDriverWait(driver, timeout=100)
 
-    try:
-        navigateToNextPage()
-    except:
-        print("last page reached")
-        break
+    #try:
+    #    navigateToNextPage()
+    #except:
+    #    print("last page reached")
+    #    break
 
-    WebDriverWait(driver, 5*60).until(EC.url_changes(driver.current_url))
-    WebDriverWait(driver, 30).until(
-        EC.presence_of_element_located(
-            (By.CSS_SELECTOR, "[class*='product_info_title-noMarginBottom']"))
-    )
+    #WebDriverWait(driver, 5*60).until(EC.url_changes(driver.current_url))
+    #WebDriverWait(driver, 30).until(
+    #    EC.presence_of_element_located(
+    #        ( By.CLASS_NAME, "product"))
+    #)
 
     pagesCount += 1
-    if pagesCount >= 50:
+    if pagesCount >= 2:
         break
 
 finish_time = datetime.now()
 timestamp = finish_time.strftime("%Y-%m-%d_%H-%M")
 
-with open(f"data/products_pichau_{timestamp}.json", "w", encoding="utf-8") as f:
+with open(f"data/products_patoloco_{timestamp}.json", "w", encoding="utf-8") as f:
     json.dump(data, f, ensure_ascii=False, indent=4)
 
 driver.quit()

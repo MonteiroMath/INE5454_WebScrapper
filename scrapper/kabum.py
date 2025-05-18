@@ -82,7 +82,7 @@ while True:
 finish_time = datetime.now()
 timestamp = finish_time.strftime("%Y-%m-%d_%H-%M")
 
-with open(f"products_kabum_{timestamp}.json", "w", encoding="utf-8") as f:
+with open(f"data/products_kabum_{timestamp}.json", "w", encoding="utf-8") as f:
     json.dump(data, f, ensure_ascii=False, indent=4)
 
 driver.quit()
