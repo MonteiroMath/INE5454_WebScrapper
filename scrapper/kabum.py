@@ -36,15 +36,14 @@ def extractData():
 
 
 def navigateToNextPage():
-    nextButton = driver.find_element(By.CLASS_NAME, "nextLink")
+    nextButton = driver.find_element(By.CLASS_NAME, "nextLink")    
     driver.execute_script(
-        "arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", nextButton)
-    time.sleep(0.5)
-    nextButton.click()
+        "arguments[0].click();", nextButton)
+    #nextButton.click()
 
 
 options = Options()
-options.add_argument("--headless")
+#options.add_argument("--headless")
 options.add_argument("--window-size=1920,1080")
 driver = webdriver.Chrome(options=options)
 
@@ -65,11 +64,14 @@ while True:
 
     wait = WebDriverWait(driver, timeout=100)
 
-    try:
-        navigateToNextPage()
-    except:
-        print("last page reached")
-        break
+
+    navigateToNextPage()
+    #try:
+    #    navigateToNextPage()
+    #except:
+#
+    #    print("last page reached")
+    #    break
 
     WebDriverWait(driver, 5*60).until(EC.url_changes(driver.current_url))
     WebDriverWait(driver, 30).until(
