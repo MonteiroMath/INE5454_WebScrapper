@@ -1,7 +1,39 @@
 import Image from "next/image";
 import { ProductDataList } from "@/types/types";
-import * as kabumData from "@/data/kabum.json";
+import kabumData from "@/data/kabum.json";
+import ProductCard from "@/components/ProductCard";
 
-export default function Home() {
-  return <div>{(kabumData as ProductDataList)[0].name}</div>;
+interface SearchParams {
+  searchParams: Promise<{ page?: string }>;
+}
+
+const PAGE_SIZE = 20;
+
+export default async function Home({ searchParams }: SearchParams) {
+  const { page: rawPage } = await searchParams;
+  let page = rawPage ? parseInt(rawPage) : 1;
+  page = isNaN(page) || page < 1 ? 1 : page;
+
+  console.log(page);
+
+  const displayData = (kabumData as ProductDataList).slice(0, 20);
+
+  return (
+    <div className="container mx-auto px-8">
+      <main className="w-full sm:w-7/12 md:w-9/12 mx-auto">
+        <div
+          className="w-full flex flex-col items-center gap-y-8
+          sm:grid  sm:justify-items-center md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
+        >
+          {displayData.map((product, index) => (
+            <ProductCard
+              key={`product-${product.loja}=${index}`}
+              productId={index}
+              product={product}
+            />
+          ))}
+        </div>
+      </main>
+    </div>
+  );
 }
