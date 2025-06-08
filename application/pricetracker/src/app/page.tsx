@@ -1,5 +1,5 @@
 import { ProductDataList } from "@/types/types";
-import kabumData from "@/data/kabum.json";
+import productData from "@/data/products.json";
 import ProductCard from "@/components/ProductCard";
 import PaginationBar from "@/components/PaginationBar";
 
@@ -16,7 +16,7 @@ export default async function Home({ searchParams }: SearchParams) {
 
   const startIndex = (page - 1) * PAGE_SIZE;
 
-  const displayData = (kabumData as ProductDataList).slice(
+  const displayData = (productData as ProductDataList).slice(
     startIndex,
     startIndex + PAGE_SIZE
   );

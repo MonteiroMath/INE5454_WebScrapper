@@ -1,14 +1,18 @@
-import { formatWithOptions } from "node:util";
-import kabum from "./scrapper/data/kabum.js";
 import fs from "node:fs";
-// import pichau as data from "./scrapper/data/pichau"
-// import gigantec as data from "./scrapper/data/gigantec"
+import products from "./scrapper/data/products.js";
 
-const kabumMap = {};
+const productMap = {};
 
-kabum.forEach((product) => {
-  if (Object.hasOwn(kabumMap, product.name)) {
-    kabumMap[product.name].prices.push({
+
+
+const shuffledProducts = products
+  .map((value) => ({ value, sort: Math.random() }))
+  .sort((a, b) => a.sort - b.sort)
+  .map(({ value }) => value);
+
+shuffledProducts.forEach((product) => {
+  if (Object.hasOwn(productMap, product.name)) {
+    productMap[product.name].prices.push({
       date: product.date,
       active_sale: product.active_sale,
       old_price: product.old_price,
@@ -16,7 +20,7 @@ kabum.forEach((product) => {
       loja: product.loja,
     });
   } else {
-    kabumMap[product.name] = {
+    productMap[product.name] = {
       name: product.name,
       loja: product.loja,
       img: product.img,
@@ -36,8 +40,8 @@ kabum.forEach((product) => {
 
 try {
   fs.writeFileSync(
-    "./data/kabum.json",
-    JSON.stringify(Object.values(kabumMap))
+    "./data/products.json",
+    JSON.stringify(Object.values(productMap))
   );
 } catch (err) {
   console.error(err);

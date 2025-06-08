@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { ProductImage } from "@/components/ProductImage";
-import kabumData from "@/data/kabum.json";
+import productData from "@/data/products.json";
 import { ProductPriceChart } from "@/components/PriceChart";
 import sortPricesByDate from "@/lib/orderByDate";
 
@@ -15,7 +15,7 @@ async function ProductDetailsPage({
 }) {
   const { id } = await params;
 
-  const product = kabumData[parseInt(id)];
+  const product = productData[parseInt(id)];
   const sortedPrices = sortPricesByDate(product.prices);
 
   return (
