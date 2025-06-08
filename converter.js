@@ -35,7 +35,10 @@ kabum.forEach((product) => {
 });
 
 try {
-  fs.writeFileSync("./data/kabum.json", JSON.stringify(kabumMap));
+  fs.writeFileSync(
+    "./data/kabum.json",
+    JSON.stringify(Object.values(kabumMap))
+  );
 } catch (err) {
   console.error(err);
 }
