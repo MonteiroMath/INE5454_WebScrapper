@@ -14,9 +14,12 @@ export default async function Home({ searchParams }: SearchParams) {
   let page = rawPage ? parseInt(rawPage) : 1;
   page = isNaN(page) || page < 1 ? 1 : page;
 
-  console.log(page);
+  const startIndex = (page - 1) * PAGE_SIZE;
 
-  const displayData = (kabumData as ProductDataList).slice(0, 20);
+  const displayData = (kabumData as ProductDataList).slice(
+    startIndex,
+    startIndex + PAGE_SIZE
+  );
 
   return (
     <div className="container mx-auto px-8">
