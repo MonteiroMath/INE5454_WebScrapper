@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ProductData } from "@/types/types";
 
 import ProductPlaceholder from "@/assets/placeholders/product.jpg";
+import sortPricesByDate from "@/lib/orderByDate";
 
 interface ProductCardProps extends React.HtmlHTMLAttributes<HTMLElement> {
   key: string;
@@ -14,6 +15,8 @@ interface ProductCardProps extends React.HtmlHTMLAttributes<HTMLElement> {
 }
 
 export default function ProductCard({ product, productId }: ProductCardProps) {
+  const sortedPrices = sortPricesByDate(product.prices);
+
   return (
     <Card className="h-[400px] w-[250px]">
       <CardHeader>
@@ -36,7 +39,9 @@ export default function ProductCard({ product, productId }: ProductCardProps) {
           </p>
         </Link>
 
-        <p className="typo-p font-semibold">{product.prices[0].price}</p>
+        <p className="typo-p font-semibold">
+          {sortedPrices.slice(-1)[0].price}
+        </p>
       </CardContent>
     </Card>
   );

@@ -31,7 +31,7 @@ export default async function Home({ searchParams }: SearchParams) {
           {displayData.map((product, index) => (
             <ProductCard
               key={`product-${product.loja}=${index}`}
-              productId={index}
+              productId={index + startIndex}
               product={product}
             />
           ))}
