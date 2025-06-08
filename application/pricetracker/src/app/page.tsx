@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { ProductDataList } from "@/types/types";
 import kabumData from "@/data/kabum.json";
 import ProductCard from "@/components/ProductCard";
+import PaginationBar from "@/components/PaginationBar";
 
 interface SearchParams {
   searchParams: Promise<{ page?: string }>;
@@ -35,6 +35,7 @@ export default async function Home({ searchParams }: SearchParams) {
               product={product}
             />
           ))}
+          <PaginationBar className="mt-6" currentPage={page} />
         </div>
       </main>
     </div>
