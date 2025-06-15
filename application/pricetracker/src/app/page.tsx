@@ -1,6 +1,5 @@
-import { ProductDataList } from "@/types/types";
-import productData from "@/data/products.json";
 import ProductCard from "@/components/ProductCard";
+import getFilteredProducts from "@/lib/getFilteredProducts";
 import PaginationBar from "@/components/PaginationBar";
 
 interface SearchParams {
@@ -8,6 +7,7 @@ interface SearchParams {
 }
 
 const PAGE_SIZE = 20;
+const productData = getFilteredProducts();
 
 export default async function Home({ searchParams }: SearchParams) {
   const { page: rawPage } = await searchParams;
@@ -16,10 +16,7 @@ export default async function Home({ searchParams }: SearchParams) {
 
   const startIndex = (page - 1) * PAGE_SIZE;
 
-  const displayData = (productData as ProductDataList).slice(
-    startIndex,
-    startIndex + PAGE_SIZE
-  );
+  const displayData = productData.slice(startIndex, startIndex + PAGE_SIZE);
 
   return (
     <div className="container mx-auto px-8">

@@ -1,12 +1,14 @@
 import { Badge } from "@/components/ui/badge";
 import { ProductImage } from "@/components/ProductImage";
-import productData from "@/data/products.json";
+import getFilteredProducts from "@/lib/getFilteredProducts";
 import { ProductPriceChart } from "@/components/PriceChart";
 import sortPricesByDate from "@/lib/orderByDate";
 
 interface ProductDetailsParams {
   id: string;
 }
+
+const productData = getFilteredProducts();
 
 async function ProductDetailsPage({
   params,

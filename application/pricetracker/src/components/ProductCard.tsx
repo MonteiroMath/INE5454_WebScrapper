@@ -17,6 +17,7 @@ interface ProductCardProps extends React.HtmlHTMLAttributes<HTMLElement> {
 export default function ProductCard({ product, productId }: ProductCardProps) {
   const sortedPrices = sortPricesByDate(product.prices);
 
+  console.log(product.prices);
   return (
     <Card className="h-[400px] w-[250px]">
       <CardHeader>
